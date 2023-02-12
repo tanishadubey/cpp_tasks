@@ -1,0 +1,67 @@
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+
+struct Birthday {
+  int day;
+  int month;
+  int year;
+};
+
+class BirthdayList {
+ public:
+  void AddBirthday(std::string name, int day, int month, int year) {
+    birthdays_[name] = {day, month, year};
+  }
+
+  void EditBirthday(std::string name, int day, int month, int year) {
+    if (birthdays_.count(name)) {
+      birthdays_[name] = {day, month, year};
+    } else {
+      std::cout << "Birthday not found.\n";
+    }
+  }
+
+  Birthday GetBirthday(std::string name) {
+    return birthdays_[name];
+  }
+
+  void PrintBirthdays() {
+    std::cout << "Birthday List:\n";
+    for (const auto& [name, bday] : birthdays_) {
+      std::cout << name << ": " << bday.day << "/" << bday.month << "/"
+                << bday.year << "\n";
+    }
+  }
+
+  void PrintMonthlyBirthdays(int month) {
+    std::cout << "Birthdays in month " << month << ":\n";
+    for (const auto& [name, bday] : birthdays_) {
+      if (bday.month == month) {
+        std::cout << name << ": " << bday.day << "\n";
+      }
+    }
+  }
+
+ private:
+  std::map<std::string, Birthday> birthdays_;
+};
+
+int main() {
+  BirthdayList list;
+
+  list.AddBirthday("Ram", 13, 3, 1989);
+  list.AddBirthday("Akshay", 20, 5, 1990);
+  list.AddBirthday("Shyam", 10, 7, 1996);
+  list.AddBirthday("Bill", 5, 9, 1998);
+  list.AddBirthday("Rohit", 29, 11, 1999);
+
+  list.PrintBirthdays();
+  list.PrintMonthlyBirthdays(3);
+
+  list.EditBirthday("Ram", 13, 3, 1990);
+  list.PrintBirthdays();
+
+  return 0;
+}
